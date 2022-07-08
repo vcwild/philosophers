@@ -6,13 +6,13 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 18:56:01 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/08 01:27:17 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/08 01:38:58 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		not_only_digits(char *str)
+int	not_only_digits(char *str)
 {
 	while (*str)
 	{
@@ -23,12 +23,12 @@ int		not_only_digits(char *str)
 	return (0);
 }
 
-int		check_inputs(int argc, char *argv[])
+int	check_inputs(int argc, char *argv[])
 {
 	if (argc < 5 || argc > 6)
 	{
-		printf("Usage: ./philo [number of philosophers] [time to eat] [time to sleep] ");
-		printf("[time to die] [number of times to eat (optional)]\n");
+		printf("Usage: ./philo [number of philosophers] [time to eat]");
+		printf(" [time to sleep] [time to die] [number of times to eat*]\n");
 		return (1);
 	}
 	while (--argc > 0)
@@ -39,7 +39,7 @@ int		check_inputs(int argc, char *argv[])
 	return (0);
 }
 
-int		main(int argc, char *argv[])
+int	main(int argc, char *argv[])
 {
 	t_table	table;
 

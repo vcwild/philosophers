@@ -6,13 +6,13 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 23:17:20 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/08 01:29:05 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/08 01:40:02 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int			ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	long int	n;
 	int			sign;
@@ -43,4 +43,3 @@ long long	gen_timestamp(void)
 	gettimeofday(&tv, &tz);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
-

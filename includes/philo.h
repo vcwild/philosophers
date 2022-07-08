@@ -6,13 +6,14 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 18:56:05 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/08 01:31:00 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/08 01:42:30 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+/* external headers */
 # include <sys/time.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -20,9 +21,11 @@
 # include <string.h>
 # include <pthread.h>
 
+/* constants */
 # define MAX_PHILO 250
 
-typedef struct		s_philo
+/* structs */
+typedef struct s_philo
 {
 	int				count_meals;
 	int				id;
@@ -32,7 +35,7 @@ typedef struct		s_philo
 	pthread_t		id_thread;
 }					t_philo;
 
-typedef struct		s_table
+typedef struct s_table
 {
 	int				n_meals;
 	int				n_philos;
@@ -48,6 +51,9 @@ typedef struct		s_table
 
 /* startup */
 int			init_program(t_table *t, int argc, char *argv[]);
+
+/* execution */
+int			feast(t_table *t);
 
 /* utils */
 int			ft_atoi(const char *str);

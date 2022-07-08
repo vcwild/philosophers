@@ -6,13 +6,14 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 01:32:05 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/08 01:32:16 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/08 01:43:12 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		feast(t_table *t)
+int	feast(t_table *t)
 {
+	(void)t;
 	return (0);
 }
