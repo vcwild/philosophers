@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 18:56:01 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/07 19:16:53 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/08 01:27:17 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 
 int		not_only_digits(char *str)
 {
-	int i;
-
-	i = 0;
-	while (str[i])
+	while (*str)
 	{
-		if (str[i] < '0' || str[i] > '9')
+		if (*str < '0' || *str > '9')
 			return (1);
-		i++;
+		str++;
 	}
 	return (0);
 }
@@ -37,18 +34,20 @@ int		check_inputs(int argc, char *argv[])
 	while (--argc > 0)
 	{
 		if (not_only_digits(argv[argc]))
-		{
-			printf("Parameters must be numeric!!\n");
-			return (1);
-		}
+			return (printf("Parameters must be numeric!!\n"), 2);
 	}
 	return (0);
 }
 
-
 int		main(int argc, char *argv[])
 {
+	t_table	table;
+
 	if (check_inputs(argc, argv))
 		return (1);
-
+	if (init_program(&table, argc, argv))
+		return (2);
+	if (feast(&table))
+		return (3);
+	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/07 19:19:40 by vwildner          #+#    #+#              #
-#    Updated: 2022/07/07 19:20:10 by vwildner         ###   ########.fr        #
+#    Updated: 2022/07/08 01:35:00 by vwildner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,10 @@ ARCHIVES_PATH = ./archives
 HEADER_FILE = philo.h
 HEADER = $(addprefix $(INCLUDES_PATH)/,$(HEADER_FILE))
 
-SOURCE_FILES =	main.c
+SOURCE_FILES =	main.c \
+				init.c \
+				feast.c \
+				helpers.c
 
 SOURCES = $(addprefix $(SOURCES_PATH)/,$(SOURCE_FILES))
 
