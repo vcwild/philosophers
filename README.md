@@ -42,7 +42,12 @@ The Dining Philosophers Problem states that K philosophers seated around a circu
 
 - The simulation stops when a philosopher dies.
 
-- Each program should have the same options: number_of_philosophers time_to_die time_to_eat time_to_sleep number_of_times_each_philosopher_must_eat (optional)
+- Each program should have the same options:
+  - number_of_philosophers
+  - time_to_die
+  - time_to_eat
+  - time_to_sleep
+  - number_of_times_each_philosopher_must_eat (optional)
 
   - number_of_philosophers: is the number of philosophers and also the number of forks
 
@@ -70,6 +75,25 @@ The Dining Philosophers Problem states that K philosophers seated around a circu
 will print its death.
 
 - Again, philosophers should avoid to die!
+
+### Allowed functions
+
+The following are allowed for this project:
+
+- [free](https://man7.org/linux/man-pages/man1/free.1.html)
+- [gettimeofday](https://man7.org/linux/man-pages/man2/gettimeofday.2.html)
+- [malloc](https://man7.org/linux/man-pages/man3/malloc.3.html)
+- [memset](https://man7.org/linux/man-pages/man3/memset.3.html)
+- [printf](https://man7.org/linux/man-pages/man3/printf.3.html)
+- [pthread_create](https://man7.org/linux/man-pages/man3/pthread_create.3.html)
+- [pthread_detach](https://man7.org/linux/man-pages/man3/pthread_detach.3.html)
+- [pthread_join](https://man7.org/linux/man-pages/man3/pthread_join.3.html)
+- [pthread_mutex_destroy](https://man7.org/linux/man-pages/man3/pthread_mutex_destroy.3p.html)
+- [pthread_mutex_init](https://man7.org/linux/man-pages/man3/pthread_mutex_init.3p.html)
+- [pthread_mutex_lock](https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3p.html)
+- [pthread_mutex_unlock](https://man7.org/linux/man-pages/man3/pthread_mutex_lock.3p.html)
+- [usleep](https://man7.org/linux/man-pages/man3/usleep.3.html)
+- [write](https://man7.org/linux/man-pages/man2/write.2.html)
 
 ## References
 
