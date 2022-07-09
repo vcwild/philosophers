@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 23:17:20 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/08 01:40:02 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/09 02:46:26 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,42 @@ long long	gen_timestamp(void)
 
 	gettimeofday(&tv, &tz);
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
+char *read_status(t_philo_status action)
+{
+	if (action == EAT)
+		return ("is eating");
+	if (action == SLEEP)
+		return ("is sleeping");
+	if (action == THINK)
+		return ("is thinking");
+	if (action == DEAD)
+		return ("died");
+	if (action == FORK)
+		return ("has taken a fork");
+	return ("ERROR");
+}
+
+void	log(t_table *t, t_philo *p, t_philo_status action)
+{
+	pthread_mutex_lock(&t->logger);
+	if (t->is_all_alive)
+	{
+		printf("%lli %i %s",
+			gen_timestamp() - t->ts_start,
+			p->id + 1,
+			read_status(action));
+	}
+	pthread_mutex_unlock(&t->logger);
+}
+
+void	wait_for(t_table *t, long long time)
+{
+	long long	ts_start;
+
+	ts_start = gen_timestamp();
+	while (t->is_all_alive
+			&& (gen_timestamp() - ts_start) < time)
+		usleep(50);
 }

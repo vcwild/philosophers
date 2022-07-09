@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 18:56:05 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/08 01:42:30 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/09 03:03:22 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <pthread.h>
+# include <stdbool.h>
 
 /* constants */
 # define MAX_PHILO 250
@@ -33,29 +34,43 @@ typedef struct s_philo
 	int				id_right_fork;
 	long long		ts_last_meal;
 	pthread_t		id_thread;
+	t_table			*table;
 }					t_philo;
 
 typedef struct s_table
 {
+	bool			is_all_fed;
+	bool			is_all_alive;
 	int				n_meals;
 	int				n_philos;
-	int				philo_alive;
-	int				philo_feeding;
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
 	long long		ts_start;
 	pthread_mutex_t	fork[MAX_PHILO];
+	pthread_mutex_t	logger;
+	pthread_mutex_t	feeder;
 	t_philo			philo[MAX_PHILO];
 }					t_table;
 
+typedef enum e_philo_status
+{
+	DEAD,
+	EAT,
+	FORK,
+	SLEEP,
+	THINK
+}	t_philo_status;
+
 /* startup */
-int			init_program(t_table *t, int argc, char *argv[]);
+int			receive_guests(t_table *t, int argc, char *argv[]);
 
 /* execution */
 int			feast(t_table *t);
 
 /* utils */
 int			ft_atoi(const char *str);
+void		log(t_table *t, t_philo *p, t_philo_status action);
+void		wait_for(t_table *t, long long time);
 
 #endif

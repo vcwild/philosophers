@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 18:56:01 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/08 01:38:58 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/09 01:54:13 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ int	not_only_digits(char *str)
 	return (0);
 }
 
+int	leave_table(t_table *t)
+{
+	int	status;
+	int	i;
+
+	i = -1;
+	while (++i < t->n_philos)
+	{
+		status = pthread_mutex_destroy(&t->philo[i].id_thread);
+		if (status)
+			return (status);
+	}
+	status = pthread_mutex_destroy(&t->feeder);
+	return (status);
+}
 int	check_inputs(int argc, char *argv[])
 {
 	if (argc < 5 || argc > 6)
@@ -45,9 +60,11 @@ int	main(int argc, char *argv[])
 
 	if (check_inputs(argc, argv))
 		return (1);
-	if (init_program(&table, argc, argv))
+	if (receive_guests(&table, argc, argv))
 		return (2);
 	if (feast(&table))
 		return (3);
+	if (leave_table(&table))
+		return (4);
 	return (0);
 }
