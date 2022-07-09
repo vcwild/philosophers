@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 23:57:41 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/09 01:50:48 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/09 03:31:22 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,5 @@ int	receive_guests(t_table *t, int argc, char *argv[])
 		return (printf("Error while initializing philosophers!!\n"), 3);
 	if (init_mutex(t))
 		return (printf("Error while initializing mutexes!!\n"), 4);
-
 	return (0);
 }

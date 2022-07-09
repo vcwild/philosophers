@@ -6,13 +6,13 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 18:56:01 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/09 01:54:13 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/09 03:15:46 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	not_only_digits(char *str)
+static int	not_only_digits(char *str)
 {
 	while (*str)
 	{
@@ -23,22 +23,7 @@ int	not_only_digits(char *str)
 	return (0);
 }
 
-int	leave_table(t_table *t)
-{
-	int	status;
-	int	i;
-
-	i = -1;
-	while (++i < t->n_philos)
-	{
-		status = pthread_mutex_destroy(&t->philo[i].id_thread);
-		if (status)
-			return (status);
-	}
-	status = pthread_mutex_destroy(&t->feeder);
-	return (status);
-}
-int	check_inputs(int argc, char *argv[])
+static int	check_inputs(int argc, char *argv[])
 {
 	if (argc < 5 || argc > 6)
 	{
@@ -52,6 +37,22 @@ int	check_inputs(int argc, char *argv[])
 			return (printf("Parameters must be numeric!!\n"), 2);
 	}
 	return (0);
+}
+
+static int	leave_table(t_table *t)
+{
+	int	status;
+	int	i;
+
+	i = -1;
+	while (++i < t->n_philos)
+	{
+		status = pthread_mutex_destroy(&t->fork[i]);
+		if (status)
+			return (status);
+	}
+	status = pthread_mutex_destroy(&t->feeder);
+	return (status);
 }
 
 int	main(int argc, char *argv[])

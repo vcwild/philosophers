@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 18:56:05 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/09 03:03:22 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/09 03:30:09 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_philo
 	int				id_right_fork;
 	long long		ts_last_meal;
 	pthread_t		id_thread;
-	t_table			*table;
+	struct s_table	*table;
 }					t_philo;
 
 typedef struct s_table
@@ -70,7 +70,7 @@ int			feast(t_table *t);
 
 /* utils */
 int			ft_atoi(const char *str);
-void		log(t_table *t, t_philo *p, t_philo_status action);
+void		write_log(t_table *t, t_philo *p, t_philo_status action);
 void		wait_for(t_table *t, long long time);
-
+long long	gen_timestamp(void);
 #endif
