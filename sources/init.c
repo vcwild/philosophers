@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 23:57:41 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/09 03:31:22 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/09 23:38:58 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,46 @@
 
 static int	init_table(t_table *t, int argc, char *argv[])
 {
+	t->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* t->n_philos);
+	t->philo = (t_philo **)malloc(sizeof(t_philo *) * t->n_philos);
+	if (!t->fork || !t->philo)
+		return (1);
 	t->n_philos = ft_atoi(argv[1]);
 	t->time_to_die = ft_atoi(argv[2]);
 	t->time_to_eat = ft_atoi(argv[3]);
 	t->time_to_sleep = ft_atoi(argv[4]);
 	t->is_all_alive = 1;
 	t->is_all_fed = 0;
+	t->count_total_meals = 0;
+	t->n_meals = -1;
 	if (argc == 6)
-	{
 		t->n_meals = ft_atoi(argv[5]);
-		if (t->n_meals < 0)
-			return (printf("Number of meals must be positive!!\n"), 1);
-	}
-	else
-		t->n_meals = -1;
 	return (0);
 }
 
 static int	init_philos(t_table *t)
 {
 	int	i;
+	t_philo	*philo;
 
-	i = t->n_philos;
 	if (!t)
 		return (1);
+	i = t->n_philos;
 	while (--i >= 0)
 	{
-		t->philo[i].id = i;
-		t->philo[i].count_meals = 0;
-		t->philo[i].id_left_fork = i;
-		t->philo[i].id_right_fork = (i + 1) % t->n_philos;
-		t->philo[i].ts_last_meal = 0;
-		t->philo[i].id_thread = 0;
-		t->philo[i].table = t;
+		philo = (t_philo *)malloc(sizeof(t_philo));
+		if (!philo)
+			return (2);
+		philo->id = i;
+		philo->count_meals = 0;
+		philo->id_left_fork = i;
+		philo->id_right_fork = (i + 1) % t->n_philos;
+		philo->ts_last_meal = t->ts_start;
+		philo->id_thread = 0;
+		philo->is_full = 0;
+		philo->table = t;
+		t->philo[i] = philo;
 	}
 	return (0);
 }
@@ -70,9 +77,6 @@ int	receive_guests(t_table *t, int argc, char *argv[])
 {
 	if (init_table(t, argc, argv))
 		return (1);
-	if (t->n_philos < 2 || t->time_to_die < 0 || t->time_to_eat < 0
-		|| t->time_to_sleep < 0 || t->n_philos > MAX_PHILO)
-		return (printf("Parameters must be positive!!\n"), 2);
 	if (init_philos(t))
 		return (printf("Error while initializing philosophers!!\n"), 3);
 	if (init_mutex(t))

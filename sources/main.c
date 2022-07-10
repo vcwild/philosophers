@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 18:56:01 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/09 03:15:46 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/09 23:52:29 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,28 @@ static int	check_inputs(int argc, char *argv[])
 		return (1);
 	}
 	while (--argc > 0)
-	{
 		if (not_only_digits(argv[argc]))
 			return (printf("Parameters must be numeric!!\n"), 2);
-	}
+	if (ft_atoi(argv[1]) < 1 || ft_atoi(argv[1]) > MAX_PHILO
+		|| ft_atoi(argv[2]) < 0 || ft_atoi(argv[3]) < 0	|| ft_atoi(argv[4]) < 0)
+		return (printf("Invalid parameters!!\n"), 2);
+	if (argv[5] && ft_atoi(argv[5]) < 0)
+		return (printf("Number of meals must be positive!!\n"), 3);
 	return (0);
 }
 
-static int	leave_table(t_table *t)
+static int	leave(t_table *t)
 {
-	int	status;
 	int	i;
 
 	i = -1;
 	while (++i < t->n_philos)
 	{
-		status = pthread_mutex_destroy(&t->fork[i]);
-		if (status)
-			return (status);
+		pthread_mutex_destroy(&t->fork[i]);
+		free(t->philo[i]);
 	}
-	status = pthread_mutex_destroy(&t->feeder);
-	return (status);
+	free(t->philo);
+	free(t->fork);
 }
 
 int	main(int argc, char *argv[])
@@ -65,7 +66,7 @@ int	main(int argc, char *argv[])
 		return (2);
 	if (feast(&table))
 		return (3);
-	if (leave_table(&table))
+	if (leave(&table))
 		return (4);
 	return (0);
 }
