@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   callbacks.c                                        :+:      :+:    :+:   */
+/*   jobs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:53:28 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/09 23:53:34 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/10 23:14:16 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 static void	feed(t_table *t, t_philo *p)
 {
-	pthread_mutex_lock(&t->fork[p->id_left_fork]);
+	pthread_mutex_lock(p->fork_left);
+	pthread_mutex_lock(p->fork_right);
 	write_log(t, p, FORK);
-	pthread_mutex_lock(&t->fork[p->id_right_fork]);
 	write_log(t, p, FORK);
-	write_log(t, p, EAT);
 	p->ts_last_meal = gen_timestamp();
-	usleep(t->time_to_eat * 1000);
-	pthread_mutex_unlock(&t->fork[p->id_left_fork]);
-	pthread_mutex_unlock(&t->fork[p->id_right_fork]);
+	write_log(t, p, EAT);
 	p->count_meals++;
+	usleep(t->time_to_eat * 1000);
+	pthread_mutex_unlock(p->fork_left);
+	pthread_mutex_unlock(p->fork_right);
 }
 
 void	*thread_start(void *arg)
@@ -33,9 +33,12 @@ void	*thread_start(void *arg)
 
 	philo = (t_philo *)arg;
 	table = philo->table;
+	if (table->n_philos == 1)
+		return (dining_solo(table, philo));
 	if (philo->id % 2)
 		usleep(15000);
-	while (table->is_all_alive)
+	while (table->is_all_alive
+		&& table->count_total_meals != table->n_philos)
 	{
 		feed(table, philo);
 		write_log(table, philo, SLEEP);
@@ -47,7 +50,7 @@ void	*thread_start(void *arg)
 
 static int	is_dead(t_table *t, t_philo *p)
 {
-	if (gen_timestamp() - p->ts_last_meal)
+	if (gen_timestamp() - p->ts_last_meal > t->time_to_die)
 	{
 		t->is_all_alive = 0;
 		write_log(t, p, DEAD);
@@ -58,12 +61,12 @@ static int	is_dead(t_table *t, t_philo *p)
 
 static int	dead_or_full(t_table *t)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < t->n_philos)
 	{
-		if (is_dead(t, &t->philo[i]))
+		if (is_dead(t, t->philo[i]))
 			return (1);
 		if (t->philo[i]->count_meals == t->n_meals
 			&& !t->philo[i]->is_full)
@@ -89,5 +92,5 @@ void	*logger_start(void *arg)
 			break ;
 		usleep(1200);
 	}
-    return (NULL);
+	return (NULL);
 }

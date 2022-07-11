@@ -6,7 +6,7 @@
 #    By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/07 19:19:40 by vwildner          #+#    #+#              #
-#    Updated: 2022/07/08 15:33:20 by vwildner         ###   ########.fr        #
+#    Updated: 2022/07/10 20:00:31 by vwildner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ HEADER = $(addprefix $(INCLUDES_PATH)/,$(HEADER_FILE))
 SOURCE_FILES =	main.c \
 				init.c \
 				feast.c \
-				helpers.c
+				helpers.c \
+				jobs.c
 
 SOURCES = $(addprefix $(SOURCES_PATH)/,$(SOURCE_FILES))
 

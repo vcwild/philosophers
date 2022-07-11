@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 01:32:05 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/09 23:50:00 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/10 23:05:46 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ static int	create_threads(t_table *t)
 	t->ts_start = gen_timestamp();
 	while (++i < t->n_philos)
 	{
-		if (pthread_create(&t->philo[i]->id_thread,
-				NULL, &thread_start, &t->philo[i]))
+		if (pthread_create(&t->philo[i]->thread,
+				NULL, thread_start, t->philo[i]))
 			return (1);
 	}
-	if (pthread_create(&t->logger, NULL, &logger_start, &t))
+	if (pthread_create(&t->logger, NULL, logger_start, t))
 		return (1);
 	return (0);
 }
@@ -37,7 +37,7 @@ static int	gather_threads(t_table *t)
 	i = -1;
 	while (++i < t->n_philos)
 	{
-		status = pthread_join(t->philo[i]->id_thread, NULL);
+		status = pthread_join(t->philo[i]->thread, NULL);
 		if (status)
 			return (status);
 	}

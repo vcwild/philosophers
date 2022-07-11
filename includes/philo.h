@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 18:56:05 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/09 23:55:13 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/10 23:13:06 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ typedef struct s_philo
 	int				count_meals;
 	bool			is_full;
 	int				id;
-	int				id_left_fork;
-	int				id_right_fork;
+	pthread_mutex_t	*fork_left;
+	pthread_mutex_t	*fork_right;
 	long long		ts_last_meal;
-	pthread_t		id_thread;
+	pthread_t		thread;
 	struct s_table	*table;
 }					t_philo;
 
@@ -67,8 +67,8 @@ typedef enum e_philo_status
 int			receive_guests(t_table *t, int argc, char *argv[]);
 
 /* thread callbacks */
-void	*logger_start(void *arg)
-void	*thread_start(void *arg);
+void		*logger_start(void *arg);
+void		*thread_start(void *arg);
 
 /* execution */
 int			feast(t_table *t);
@@ -77,4 +77,6 @@ int			feast(t_table *t);
 int			ft_atoi(const char *str);
 void		write_log(t_table *t, t_philo *p, t_philo_status action);
 long long	gen_timestamp(void);
+void		*dining_solo(t_table *t, t_philo *p);
+
 #endif
