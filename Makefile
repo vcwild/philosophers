@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: coder <coder@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/07 19:19:40 by vwildner          #+#    #+#              #
-#    Updated: 2022/07/10 20:00:31 by vwildner         ###   ########.fr        #
+#    Updated: 2022/07/14 23:47:49 by coder            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -O0
+CFLAGS = -Wall -Wextra -Werror
 
 EXTERNAL_LIBS = -lpthread
 
@@ -44,6 +44,14 @@ SOURCES = $(addprefix $(SOURCES_PATH)/,$(SOURCE_FILES))
 
 OBJECTS = $(addprefix $(OBJECTS_PATH)/,$(subst .c,.o,$(SOURCE_FILES)))
 
+ifeq (run,$(firstword $(MAKECMDGOALS)))
+  # use the rest as arguments for "run"
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  # ...and turn them into do-nothing targets
+  $(eval $(RUN_ARGS):;@:)
+endif
+
+
 all: $(NAME)
 
 $(NAME): $(OBJECTS) $(HEADER)
@@ -51,10 +59,10 @@ $(NAME): $(OBJECTS) $(HEADER)
 
 $(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.c $(HEADER)
 	@$(SAFE_MKDIR) $(OBJECTS_PATH)
-	@$(CC) $(CFLAGS) -g -I $(INCLUDES_PATH) -o $@ -c $< $(EXTERNAL_LIBS)
+	@$(CC) $(CFLAGS) -g -I $(INCLUDES_PATH) -o $@ -c $<
 
 valgrind: $(NAME)
-	$(VALGRIND) ./$(NAME) $(INPUT)
+	$(VALGRIND) ./$(NAME) $(RUN_ARGS)
 
 re:	fclean all
 
