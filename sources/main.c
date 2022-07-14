@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 18:56:01 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/10 23:13:38 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/11 19:40:24 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char *argv[])
 	if (receive_guests(&table, argc, argv))
 		return (2);
 	if (feast(&table))
-		return (3);
+		return (leave(&table), 3);
 	if (leave(&table))
 		return (4);
 	return (0);

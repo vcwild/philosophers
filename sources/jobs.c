@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:53:28 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/10 23:14:16 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/12 22:00:04 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static int	is_dead(t_table *t, t_philo *p)
 {
 	if (gen_timestamp() - p->ts_last_meal > t->time_to_die)
 	{
-		t->is_all_alive = 0;
 		write_log(t, p, DEAD);
+		t->is_all_alive = 0;
 		return (1);
 	}
 	return (0);
