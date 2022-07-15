@@ -21,4 +21,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Compile the program
-        run: make
+        run: |
+          cd philo
+          make
