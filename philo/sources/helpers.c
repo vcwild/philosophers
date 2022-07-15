@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 23:17:20 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/10 23:12:31 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/15 14:00:36 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,29 @@ long long	gen_timestamp(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-static char	*read_status(t_philo_status action)
+static char	*read_status(t_philo_status status)
 {
-	if (action == EAT)
+	if (status == EAT)
 		return ("is eating");
-	if (action == SLEEP)
+	if (status == SLEEP)
 		return ("is sleeping");
-	if (action == THINK)
+	if (status == THINK)
 		return ("is thinking");
-	if (action == DEAD)
+	if (status == DEAD)
 		return ("died");
-	if (action == FORK)
+	if (status == FORK)
 		return ("has taken a fork");
 	return ("ERROR");
 }
 
-void	write_log(t_table *t, t_philo *p, t_philo_status action)
+void	write_log(t_table *t, t_philo *p, t_philo_status status)
 {
 	if (t->is_all_alive)
 	{
 		printf("[%7lld] %i %s\n",
 			gen_timestamp() - t->ts_start,
 			p->id + 1,
-			read_status(action));
+			read_status(status));
 	}
 }
 

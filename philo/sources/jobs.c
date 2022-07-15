@@ -6,25 +6,11 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:53:28 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/12 22:00:04 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/15 13:47:27 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-static void	feed(t_table *t, t_philo *p)
-{
-	pthread_mutex_lock(p->fork_left);
-	pthread_mutex_lock(p->fork_right);
-	write_log(t, p, FORK);
-	write_log(t, p, FORK);
-	p->ts_last_meal = gen_timestamp();
-	write_log(t, p, EAT);
-	p->count_meals++;
-	usleep(t->time_to_eat * 1000);
-	pthread_mutex_unlock(p->fork_left);
-	pthread_mutex_unlock(p->fork_right);
-}
 
 void	*thread_start(void *arg)
 {
@@ -35,15 +21,13 @@ void	*thread_start(void *arg)
 	table = philo->table;
 	if (table->n_philos == 1)
 		return (dining_solo(table, philo));
-	if (philo->id % 2)
-		usleep(15000);
+	limit_startup(philo);
 	while (table->is_all_alive
 		&& table->count_total_meals != table->n_philos)
 	{
 		feed(table, philo);
-		write_log(table, philo, SLEEP);
-		usleep(table->time_to_sleep * 1000);
-		write_log(table, philo, THINK);
+		_sleep(table, philo);
+		think(table, philo);
 	}
 	return (NULL);
 }

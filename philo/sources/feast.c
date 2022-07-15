@@ -6,7 +6,7 @@
 /*   By: vwildner <vwildner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 01:32:05 by vwildner          #+#    #+#             */
-/*   Updated: 2022/07/10 23:05:46 by vwildner         ###   ########.fr       */
+/*   Updated: 2022/07/15 13:43:54 by vwildner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,23 @@ static int	gather_threads(t_table *t)
 	}
 	status = pthread_join(t->logger, NULL);
 	return (status);
+}
+
+int	leave(t_table *t)
+{
+	int	i;
+
+	i = -1;
+	if (!t)
+		return (1);
+	while (++i < t->n_philos)
+	{
+		pthread_mutex_destroy(&t->fork[i]);
+		free(t->philo[i]);
+	}
+	free(t->philo);
+	free(t->fork);
+	return (0);
 }
 
 int	feast(t_table *t)
